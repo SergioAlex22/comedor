@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const peopleSchema = new mongoose.Schema({
+const alumnoSchema = new mongoose.Schema({
     codeStudent: {
        type: String,
        required: true
@@ -18,4 +18,4 @@ const peopleSchema = new mongoose.Schema({
     }
   });
 
-  module.exports = {peopleSchema}
+  module.exports = {alumnoSchema}
