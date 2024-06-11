@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const { paySchema } = require('./schemas');
+const { comedorSchema } = require('./schemas');
 
-const payModel = mongoose.model('Pay', paySchema);
+const comedorModel = mongoose.model('comedor', comedorSchema);
 
-module.exports = {payModel };
+module.exports = {comedorModel };
