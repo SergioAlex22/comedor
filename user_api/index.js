@@ -8,7 +8,7 @@ app.use( express.json() )
 const port = 8080
 const { alumnoModel: alumnoModel } = require('./models');
 
-app.get('/', (req, res) => { res.send("I am alive People"); })
+app.get('/', (req, res) => { res.send("I am alive Alumno"); })
 
 app.get('/alumno', async(req, res)=>{
   const alumno = await alumnoModel.find({});
