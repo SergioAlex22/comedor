@@ -1,21 +1,15 @@
 const express = require("express")
 const userService = require("./services/userService");
-//const uri = 'mongodb+srv://silvaiberson3:iberson123@cluster0.j8pegzx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 const uri = 'mongodb+srv://admin:marcelo17@cluster1.l4c2lfi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1'
 const mongoose = require('mongoose');
 mongoose.connect(uri);
+
 const app = express()
 app.use( express.json() )
 const port = 8080
 const {comedorModel } = require('./models');
-function generateRandomNumericCode(length) {
-  const characters = '0123456789';
-  let result = '';
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return result;
-}
+
+
 app.get('/', (req, res) => { res.send("I am alive comedor"); })
 
 app.get('/comedor', async(req, res)=>{
@@ -26,6 +20,8 @@ app.get('/comedor/:codeStudent', async(req, res)=>{
   const codigo = await comedorModel.find({code:req.params.codeStudent});
   res.json( codigo );
 });
+
+
 app.post('/comedor', async(req, res)=>{
   try {
     const {codeStudent, name, lastname } = req.body;
