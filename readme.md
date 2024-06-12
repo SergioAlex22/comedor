@@ -5,7 +5,7 @@
 DESARROLLO DEL PORYECTO:
  * Sergio:
     - Estructura del proyecto.
-    - Creacion de los ocntenedores.
+    - Creacion de los Contenedores.
     - Creación de los servicios que se van a utilizaer
 
 * Jhimi:
