@@ -1,39 +1,50 @@
 const express = require("express")
 const userService = require("./services/userService");
+//const uri = 'mongodb+srv://silvaiberson3:iberson123@cluster0.j8pegzx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 const uri = 'mongodb+srv://admin:marcelo17@cluster1.l4c2lfi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1'
 const mongoose = require('mongoose');
 mongoose.connect(uri);
 const app = express()
 app.use( express.json() )
 const port = 8080
-const { payModel } = require('./models');
+const {comedorModel } = require('./models');
+function generateRandomNumericCode(length) {
+  const characters = '0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
 app.get('/', (req, res) => { res.send("I am alive comedor"); })
 
 app.get('/comedor', async(req, res)=>{
-  const list = await payModel.find({});
+  const list = await comedorModel.find({});
   res.json( list );
 });
-app.get('/comedor/:code', async(req, res)=>{
-  const payment = await payModel.find({code:req.params.code});
-  res.json( payment );
+app.get('/comedor/:codeStudent', async(req, res)=>{
+  const codigo = await comedorModel.find({code:req.params.codeStudent});
+  res.json( codigo );
 });
 app.post('/comedor', async(req, res)=>{
   try {
-    const {code, codeStudent,status} = req.body;
-    
-    const loan=await userService.get(codeStudent);
-    console.log("LOAN", loan);
-    if(!loan) throw ("LOAN_NOT_FOUND");
-    if( loan.status!='PENDING') throw ("LOAN_NOT_PENDING");
+    const {codeStudent, name, lastname } = req.body;
+    // Verificar si el estudiante existe utilizando userService
+    const student = await userService.get(codeStudent);
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
 
-    const payment = new payModel({code, codeStudent, status });
-    const data = await payment.save();
-    await loanService.changeStatus(loanCode,'PAID');
-    return res.status(201).json(data);
-    
+    const comensal = new comedorModel({codeStudent,name,lastname});
+    const data = await comensal.save();
+    // Si el estudiante existe, devolver una respuesta exitosa
+    return res.status(200).json({ message: 'Student found', student });
 
   } catch (error) {
     console.log('Error', error);
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
