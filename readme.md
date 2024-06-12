@@ -2,7 +2,7 @@
 - jhimi Marcelo Luyo
 - Sergio Valles Rodríguez
 
-DESARROLLO DEL PORYECTO:
+DESARROLLO DEL PROYECTO:
  * Sergio:
     - Estructura del proyecto.
     - Creacion de los Contenedores.
